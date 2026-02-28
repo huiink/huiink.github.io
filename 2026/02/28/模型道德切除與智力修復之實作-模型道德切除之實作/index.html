@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hackmd.io/_uploads/rJUPa7iO-l.png">
 <meta property="og:image" content="https://hackmd.io/_uploads/B1qIK4s_Zl.png">
 <meta property="article:published_time" content="2026-02-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-02-28T07:55:54.444Z">
+<meta property="article:modified_time" content="2026-02-28T09:18:07.605Z">
 <meta property="article:author" content="老祖">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="note">
@@ -433,7 +433,7 @@
 <p>$$<br>\mu_{\text{harmless}} &#x3D;<br>\frac{1}{N}<br>\sum_{i&#x3D;1}^{N}<br>h^{(l)}_{\text{harmless}, i}<br>$$</p>
 <p>拒絕方向定義為：</p>
 <p>$$<br>v &#x3D; \mu_{\text{harmful}} - \mu_{\text{harmless}}<br>$$</p>
-<p>並進行：</p>
+<p>並轉化為單位向量：</p>
 <p>$$<br>\hat{v} &#x3D;<br>\frac{v}{|v|_2}<br>$$</p>
 <h3 id="2-層選擇策略"><a href="#2-層選擇策略" class="headerlink" title="2. 層選擇策略"></a>2. 層選擇策略</h3><p>提取層索引設定為：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">layer_idx = <span class="built_in">int</span>(<span class="built_in">len</span>(model.model.layers) * <span class="number">0.6</span>)</span><br></pre></td></tr></table></figure>
