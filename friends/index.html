@@ -469,6 +469,39 @@
     crossorigin="anonymous"
     async>
   </script>
+  <script>
+    (function () {
+      function currentTheme() {
+        return document.documentElement.getAttribute('theme') === 'dark'
+          ? "dark"
+          : "light";
+      }
+
+      function syncGiscusTheme() {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe || !iframe.contentWindow) return;
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: currentTheme() } } },
+          'https://giscus.app'
+        );
+      }
+
+      const observer = new MutationObserver(function (mutations) {
+        for (const mutation of mutations) {
+          if (mutation.attributeName === 'theme') syncGiscusTheme();
+        }
+      });
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['theme']
+      });
+
+      window.addEventListener('load', function () {
+        syncGiscusTheme();
+        setTimeout(syncGiscusTheme, 800);
+      });
+    })();
+  </script>
 </div>
         
       </div>
