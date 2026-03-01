@@ -453,28 +453,55 @@
     <div class="main-title-dot"></div>
     <div class="main-title">Comments</div>
   </div>
-  <script src="https://giscus.app/client.js"
-    data-repo="huiink/huiink-comments"
-    data-repo-id="R_kgDOQ09UcA"
-    data-category="General"
-    data-category-id="DIC_kwDOQ09UcM4C0p8X"
-    data-mapping="pathname"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="bottom"
-    data-theme="light"
-    data-lang="zh-TW"
-    data-loading="lazy"
-    crossorigin="anonymous"
-    async>
-  </script>
+  <div id="giscus_thread"></div>
   <script>
     (function () {
+      const giscusConfig = {
+        repo: "huiink/huiink-comments",
+        repoId: "R_kgDOQ09UcA",
+        category: "General",
+        categoryId: "DIC_kwDOQ09UcM4C0p8X",
+        mapping: "pathname",
+        strict: "0",
+        reactionsEnabled: "1",
+        emitMetadata: "0",
+        inputPosition: "bottom",
+        lang: "zh-TW",
+        loading: "lazy"
+      };
+
       function currentTheme() {
-        return document.documentElement.getAttribute('theme') === 'dark'
-          ? "dark"
-          : "light";
+        const explicitTheme = document.documentElement.getAttribute('theme');
+        if (explicitTheme === 'dark') return "dark";
+        if (explicitTheme === 'light') return "light";
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return "dark";
+        }
+        return "light";
+      }
+
+      function mountGiscus() {
+        const host = document.getElementById('giscus_thread');
+        if (!host) return;
+        if (host.querySelector('script[src="https://giscus.app/client.js"]')) return;
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.setAttribute('data-repo', giscusConfig.repo);
+        script.setAttribute('data-repo-id', giscusConfig.repoId);
+        script.setAttribute('data-category', giscusConfig.category);
+        script.setAttribute('data-category-id', giscusConfig.categoryId);
+        script.setAttribute('data-mapping', giscusConfig.mapping);
+        script.setAttribute('data-strict', giscusConfig.strict);
+        script.setAttribute('data-reactions-enabled', giscusConfig.reactionsEnabled);
+        script.setAttribute('data-emit-metadata', giscusConfig.emitMetadata);
+        script.setAttribute('data-input-position', giscusConfig.inputPosition);
+        script.setAttribute('data-theme', currentTheme());
+        script.setAttribute('data-lang', giscusConfig.lang);
+        script.setAttribute('data-loading', giscusConfig.loading);
+        host.appendChild(script);
       }
 
       function syncGiscusTheme() {
@@ -485,6 +512,8 @@
           'https://giscus.app'
         );
       }
+
+      mountGiscus();
 
       const observer = new MutationObserver(function (mutations) {
         for (const mutation of mutations) {

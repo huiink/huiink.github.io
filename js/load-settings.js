@@ -1,7 +1,10 @@
 function loadSettings() {
-    let theme = localStorage.getItem('theme');
-    if (theme) {
-        document.documentElement.setAttribute('theme', theme);
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+        document.documentElement.setAttribute('theme', storedTheme);
+    } else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('theme', prefersDark ? 'dark' : 'light');
     }
 
     let showBanner = localStorage.getItem("showBanner");
