@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hackmd.io/_uploads/rJUPa7iO-l.png">
 <meta property="og:image" content="https://hackmd.io/_uploads/B1qIK4s_Zl.png">
 <meta property="article:published_time" content="2026-02-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-03-02T15:00:59.454Z">
+<meta property="article:modified_time" content="2026-03-02T15:46:24.884Z">
 <meta property="article:author" content="老祖">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="note">
@@ -316,24 +316,14 @@
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <p><strong>學術誠信與來源聲明</strong></p>
-<p>本報告為高職專題概念驗證的學習實作，所有技術方法、數學公式、程式碼框架及實驗流程，均係參考並改編自以下公開文獻與開源專案：</p>
-<ul>
-<li>Andy Arditi, Oscar Obeso, Aaquib111, wesg, Neel Nanda. 27th Apr 2024. “Refusal in LLMs is mediated by a single direction.” AI Alignment Forum.</li>
-<li>Maxime Labonne, “Uncensor any LLM with abliteration”, Hugging Face Blog, 2024.</li>
-<li>Sumandora, “remove-refusals-with-transformers” GitHub repository, 2024.</li>
-<li>Andy Arditi et al., “Refusal in LLMs is mediated by a single direction”, LessWrong &#x2F; AI Alignment Forum, 2024.</li>
-<li>以及相關 arXiv 論文。</li>
-</ul>
-<p>學員並未主張任何原始創新技術，<strong>所有實作均屬學習性二次開發</strong>。<br>如有任何引用不當或遺漏，學員願負完全學術責任並致以最高的歉意。</p>
-<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本專題原始規劃為在資安與 AI 交叉領域開發一套能在滲透測試 &#x2F; 紅隊演練場景中操作的大型語言模型代理（AI Red Team Agent）。研究原先採取雙人跨校分工模式：本人負責模型核心之表示層干預實驗，夥伴負責未來的 Agentic 架構與工具串接設計。</p>
-<p>考量專題時程、技術門檻與資源條件，本階段聚焦於整體架構中的核心模型研發，即：</p>
+          <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本專題原始規劃為在資安與 AI 交叉領域開發一套能在滲透測試 &#x2F; 紅隊演練場景中操作的大型語言模型代理（AI Red Team Agent）。研究原先採取雙人跨校分工模式：本人負責模型核心之表示層干預實驗，夥伴負責未來的 Agentic 架構與工具串接設計。<br>考量專題時程、技術門檻與資源條件，本階段聚焦於整體架構中的核心模型研發，即：</p>
 <ol>
 <li>透過權重正交投影技術從模型中消融拒絕行為  </li>
 <li>量化消融對模型能力的影響  </li>
 <li>探討以有監督微調修復智力損失的可行性</li>
 </ol>
-<p>未來將視條件逐步實作後續階段，包括 Agentic 架構整合與資安場景工具連接等作業，作為研究方向。</p>
+<p>實作上，我將參考<a target="_blank" rel="noopener" href="https://huggingface.co/blog/mlabonne/abliteration">Uncensor any LLM with abliteration</a>這篇文章的實作流程以並引用<a href="#%E5%8F%83%E8%80%83%E6%96%87%E7%8D%BB">參考文獻</a>公開文獻與開源專案進行學習與實現</p>
+<p>未來將視條件逐步實作後續階段，包括 Agentic 架構整合與資安場景工具連接等作業，作為長期研究方向。</p>
 <p>本報告呈現上述實作學習成果、方法心得與未來展望。</p>
 <hr>
 <ul>
@@ -734,15 +724,29 @@
 <p>跨校合作的經驗亦讓我體會到溝通與分工的重要性。與曹宸睿同學合作的過程，不僅分擔了技術負荷，也使我接觸到 Agentic 架構與 MCP 協定等系統層面的設計思維，拓展了原本僅聚焦於模型訓練的視角。</p>
 <hr>
 <h2 id="6-2-技術上的收穫與反思"><a href="#6-2-技術上的收穫與反思" class="headerlink" title="6.2 技術上的收穫與反思"></a>6.2 技術上的收穫與反思</h2><p>本研究過程中，作者深刻體會到理論基礎的重要性。從最初依賴 vibe coding，到必須自行推導投影矩陣等價性與修改 Transformer 內部權重，學習曲線陡峭但收穫極大。未來將優先補強線性代數與模型可解釋性相關知識。</p>
-<h3 id="未來方向"><a href="#未來方向" class="headerlink" title="未來方向"></a>未來方向</h3><p>這次的挫折不是終點，而是學習的起點。我計畫在後續的學習中：</p>
+<h2 id="6-3-未來展望"><a href="#6-3-未來展望" class="headerlink" title="6.3 未來展望"></a>6.3 未來展望</h2><p>本專題目前完成之成果，主要聚焦於「模型拒絕行為的表示層干預」與「能力影響評估／修復可行性」。未來的工作將以「提升嚴謹性」與「擴展至資安應用」兩條主軸推進，逐步把概念驗證（PoC）轉化為可被重現、可被驗證、也更貼近實務場景的成果。</p>
+<h3 id="6-3-1-實驗設計與評估嚴謹化"><a href="#6-3-1-實驗設計與評估嚴謹化" class="headerlink" title="6.3.1 實驗設計與評估嚴謹化"></a>6.3.1 實驗設計與評估嚴謹化</h3><p>本階段測試已初步呈現拒絕率下降與能力變化趨勢，但仍存在測試集規模、統計穩定性與資料污染風險等限制。後續將優先補強以下面向：</p>
 <ul>
-<li>補強基礎：深入學習 Transformer 架構、模型可解釋性方法，以及訓練流程的細節。</li>
-<li>從工具使用者變成工具理解者：嘗試閱讀並修改開源工具的原始碼，理解其背後設計，到自己動手寫簡單的訓練腳本。</li>
-<li>貢獻開源社群：將這次的經驗整理成筆記或簡單的教學，幫助其他遇到類似困難的學習者。</li>
+<li><strong>加入控制組與消融對照</strong>：例如隨機方向投影、不同 layer 投影、不同模組（注意力層 vs MLP）投影，釐清效果是否真由「拒絕方向」造成，而非一般性權重擾動。</li>
+<li><strong>擴充並標準化評估資料</strong>：逐步引入更具公信力的測試集與評估流程（如更嚴謹的拒絕測試集、LLM-as-judge 或分層標註規則），降低自建資料偏差對結果的影響。</li>
+<li><strong>避免訓練與測試資料重疊</strong>：針對 SFT 修復部分，將採取更嚴格的資料切分策略與資料來源檢核，避免因資料污染造成指標提升的誤判。</li>
+<li><strong>多次重跑與統計呈現</strong>：增加重複實驗次數並呈現平均值與變異程度（如 std 或信賴區間），使結果更具說服力與可比較性。</li>
 </ul>
-<p>我相信，每一次卡關都是成長的機會，而這次專題讓我更清楚自己需要補足的方向。</p>
+<h3 id="6-3-2-拒絕方向的可解釋性與更乾淨的抽取方式"><a href="#6-3-2-拒絕方向的可解釋性與更乾淨的抽取方式" class="headerlink" title="6.3.2 拒絕方向的可解釋性與更乾淨的抽取方式"></a>6.3.2 拒絕方向的可解釋性與更乾淨的抽取方式</h3><p>目前使用「對比激活均值差」作為拒絕方向的近似，雖適合快速驗證，但仍屬較粗略的方法。後續可延伸為更具解釋性的分析：</p>
+<ul>
+<li><strong>分析拒絕方向的穩定性</strong>：探討不同提示模板、不同資料子集、不同層抽取下，拒絕向量的一致性（例如 cosine similarity）。</li>
+<li><strong>多方向／子空間建模</strong>：評估拒絕是否真能由單一向量描述，或更接近多維子空間；必要時可嘗試以 PCA &#x2F; SVD 等方式找出更穩定的拒絕子空間。</li>
+<li><strong>參考更精細的拒絕分解方法</strong>：未來若時間與能力允許，嘗試復現更細緻的拒絕分離技術（例如區分「風格性拒絕」與「安全護欄拒絕」），以降低對正常能力的副作用。</li>
+</ul>
+<h3 id="6-3-3-從模型層走向資安應用：Agentic-與工具鏈整合"><a href="#6-3-3-從模型層走向資安應用：Agentic-與工具鏈整合" class="headerlink" title="6.3.3 從模型層走向資安應用：Agentic 與工具鏈整合"></a>6.3.3 從模型層走向資安應用：Agentic 與工具鏈整合</h3><p>本研究的長期目標仍是將模型能力落地於資安場景。模型層的表示干預可視為「大腦調整」，後續將以「行動系統」為方向逐步擴展：</p>
+<ul>
+<li><strong>規劃 Agentic 架構</strong>：設計能在資安任務中進行分解、規劃、反思與記錄的流程（例如任務拆解、工具選擇、結果回饋）。</li>
+<li><strong>導入工具調用與環境互動</strong>：逐步串接命令列、掃描工具或靶機環境，在封閉且合法的測試情境中驗證模型對資安任務的協助程度。</li>
+<li><strong>以「安全可控」為前提的應用驗證</strong>：後續所有整合將以合法授權與封閉環境為原則，並建立最基本的風險控管機制（例如情境限制、任務範圍限制與輸出審核），確保研究目標聚焦於提升資安學習與演練效率，而非濫用。</li>
+</ul>
+<h3 id="6-3-4-長期學習規劃"><a href="#6-3-4-長期學習規劃" class="headerlink" title="6.3.4 長期學習規劃"></a>6.3.4 長期學習規劃</h3><p>本專題讓我更清楚自己在理論基礎、訓練流程、評估方法等方面仍有不足。未來將持續補強線性代數、機器學習與模型可解釋性，並以「能自己設計實驗、能自己證明假設」為目標，把每一次實作從做出結果，提升到做出可被驗證的結果。</p>
 <hr>
-<h1 id="參考文獻"><a href="#參考文獻" class="headerlink" title="參考文獻"></a>參考文獻</h1><p>[1] by <a target="_blank" rel="noopener" href="https://andyrdt.com/">Andy Arditi</a>, <a target="_blank" rel="noopener" href="https://www.lesswrong.com/users/oscar-obeso?from=post_header">Oscar Obeso</a>, <a target="_blank" rel="noopener" href="https://www.lesswrong.com/users/aaquib111?from=post_header">Aaquib111</a>, <a target="_blank" rel="noopener" href="https://www.lesswrong.com/users/wes-gurnee?from=post_header">wesg</a>, <a target="_blank" rel="noopener" href="https://www.lesswrong.com/users/neel-nanda-1?from=post_header">Neel Nanda</a>. 27th Apr 2024. <a target="_blank" rel="noopener" href="https://www.lesswrong.com/posts/jGuXSZgv6qfdhMCuJ/refusal-in-llms-is-mediated-by-a-single-direction">Refusal in LLMs is mediated by a single direction</a>. <a target="_blank" rel="noopener" href="https://alignmentforum.org/posts/jGuXSZgv6qfdhMCuJ/refusal-in-llms-is-mediated-by-a-single-direction?_ga=2.30935295.1302228560.1771600034-1586481841.1770904002">AI Alignment Forum</a>.<br>[2]by <a target="_blank" rel="noopener" href="https://huggingface.co/mlabonne">Maxime Labonne</a>. June 13, 2024. <a target="_blank" rel="noopener" href="https://huggingface.co/blog/mlabonne/abliteration">Uncensor any LLM with abliteration</a>. <a target="_blank" rel="noopener" href="https://huggingface.co/blog/community">Community Articles</a>.<br>[3]by <a target="_blank" rel="noopener" href="http://github.com/Sumandora">Sumandora</a>. Jun 3, 2024. <a target="_blank" rel="noopener" href="https://github.com/Sumandora/remove-refusals-with-transformers">remove-refusals-with-transformers</a>.<br>[4]by Bruce W. Lee, Inkit Padhi, Karthikeyan Natesan Ramamurthy, Erik Miehling, Pierre Dognin, Manish Nagireddy, Amit Dhurandhar. 6 Sep 2024 . <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2409.05907">Programming Refusal with Conditional Activation Steering</a>. <a target="_blank" rel="noopener" href="https://arxiv.org/">arXiv</a><br>[5]by Nirmalendu Prakash, Yeo Wei Jie, Amir Abdullah, Ranjan Satapathy, Erik Cambria, Roy Ka Wei Lee. 10 Oct 2025. <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2509.09708">Beyond I’m Sorry, I Can’t: Dissecting Large Language Model Refusal</a>. <a target="_blank" rel="noopener" href="https://arxiv.org/">arXiv</a><br>[6]by Xinpeng Wang, Chengzhi Hu, Paul Röttger, Barbara Plank. 4 Oct 2024. <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.03415">Mitigating False Refusal in Language Models via Single Vector Ablation</a>. <a target="_blank" rel="noopener" href="https://arxiv.org/">arXiv</a></p>
+<h1 id="參考文獻"><a href="#參考文獻" class="headerlink" title="參考文獻"></a>參考文獻</h1><p>本報告為高職專題概念驗證的學習實作，所有技術方法、數學公式、程式碼框架及實驗流程，均係參考並改編自以下公開文獻與開源專案：<br>[1] by <a target="_blank" rel="noopener" href="https://andyrdt.com/">Andy Arditi</a>, <a target="_blank" rel="noopener" href="https://www.lesswrong.com/users/oscar-obeso?from=post_header">Oscar Obeso</a>, <a target="_blank" rel="noopener" href="https://www.lesswrong.com/users/aaquib111?from=post_header">Aaquib111</a>, <a target="_blank" rel="noopener" href="https://www.lesswrong.com/users/wes-gurnee?from=post_header">wesg</a>, <a target="_blank" rel="noopener" href="https://www.lesswrong.com/users/neel-nanda-1?from=post_header">Neel Nanda</a>. 27th Apr 2024. <a target="_blank" rel="noopener" href="https://www.lesswrong.com/posts/jGuXSZgv6qfdhMCuJ/refusal-in-llms-is-mediated-by-a-single-direction">Refusal in LLMs is mediated by a single direction</a>. <a target="_blank" rel="noopener" href="https://alignmentforum.org/posts/jGuXSZgv6qfdhMCuJ/refusal-in-llms-is-mediated-by-a-single-direction?_ga=2.30935295.1302228560.1771600034-1586481841.1770904002">AI Alignment Forum</a>.<br>[2]by <a target="_blank" rel="noopener" href="https://huggingface.co/mlabonne">Maxime Labonne</a>. June 13, 2024. <a target="_blank" rel="noopener" href="https://huggingface.co/blog/mlabonne/abliteration">Uncensor any LLM with abliteration</a>. <a target="_blank" rel="noopener" href="https://huggingface.co/blog/community">Community Articles</a>.<br>[3]by <a target="_blank" rel="noopener" href="http://github.com/Sumandora">Sumandora</a>. Jun 3, 2024. <a target="_blank" rel="noopener" href="https://github.com/Sumandora/remove-refusals-with-transformers">remove-refusals-with-transformers</a>.<br>[4]by Bruce W. Lee, Inkit Padhi, Karthikeyan Natesan Ramamurthy, Erik Miehling, Pierre Dognin, Manish Nagireddy, Amit Dhurandhar. 6 Sep 2024 . <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2409.05907">Programming Refusal with Conditional Activation Steering</a>. <a target="_blank" rel="noopener" href="https://arxiv.org/">arXiv</a><br>[5]by Nirmalendu Prakash, Yeo Wei Jie, Amir Abdullah, Ranjan Satapathy, Erik Cambria, Roy Ka Wei Lee. 10 Oct 2025. <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2509.09708">Beyond I’m Sorry, I Can’t: Dissecting Large Language Model Refusal</a>. <a target="_blank" rel="noopener" href="https://arxiv.org/">arXiv</a><br>[6]by Xinpeng Wang, Chengzhi Hu, Paul Röttger, Barbara Plank. 4 Oct 2024. <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.03415">Mitigating False Refusal in Language Models via Single Vector Ablation</a>. <a target="_blank" rel="noopener" href="https://arxiv.org/">arXiv</a><br>[7]by hiyouga. <a target="_blank" rel="noopener" href="https://github.com/hiyouga/LlamaFactory">LlamaFactory</a><br>[8]by <a target="_blank" rel="noopener" href="https://github.com/unslothai">unslothai</a>.<a target="_blank" rel="noopener" href="https://github.com/unslothai/unsloth">unsloth</a><br>所有實作均屬學習性二次開發<br>如有任何引用不當或遺漏，願負完全學術責任並致以最高的歉意</p>
 <hr>
 <h1 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h1><h2 id="附錄A：使用工具"><a href="#附錄A：使用工具" class="headerlink" title="附錄A：使用工具"></a>附錄A：使用工具</h2><p>修改後消融工具存放於個人github上的<a target="_blank" rel="noopener" href="https://github.com/huiink/My-model-refusal">My-model-refusal</a><br>原始碼來自於<a target="_blank" rel="noopener" href="http://github.com/Sumandora">Sumandora</a>.的 <a target="_blank" rel="noopener" href="https://github.com/Sumandora/remove-refusals-with-transformers">remove-refusals-with-transformers</a><br>測試工具<a target="_blank" rel="noopener" href="https://github.com/EleutherAI/lm-evaluation-harness">lm-evaluation-harness</a></p>
 <h2 id="附錄B：敏感提示詞測試集範例"><a href="#附錄B：敏感提示詞測試集範例" class="headerlink" title="附錄B：敏感提示詞測試集範例"></a>附錄B：敏感提示詞測試集範例</h2><p>本研究使用 604 條 Harmful&#x2F;Harmless 對比提示（詳見 GitHub repo <a target="_blank" rel="noopener" href="https://github.com/huiink/My-model-refusal">My-model-refusal</a>），因涉及敏感內容，不列入附錄</p>
@@ -750,10 +754,11 @@
 <h3 id="切除後"><a href="#切除後" class="headerlink" title="切除後"></a>切除後</h3><p><img src="https://hackmd.io/_uploads/B1qIK4s_Zl.png" alt="螢幕擷取畫面 2026-02-24 221454"></p>
 <h2 id="附錄D：修改後儲存的模型"><a href="#附錄D：修改後儲存的模型" class="headerlink" title="附錄D：修改後儲存的模型"></a>附錄D：修改後儲存的模型</h2><h3 id="Qwen3-4B-Thinking-2507消融"><a href="#Qwen3-4B-Thinking-2507消融" class="headerlink" title="Qwen3-4B-Thinking-2507消融"></a>Qwen3-4B-Thinking-2507消融</h3><p><a target="_blank" rel="noopener" href="https://huggingface.co/huiink/Qwen3-refual">huiink&#x2F;Qwen3-refual</a></p>
 <h3 id="原模型"><a href="#原模型" class="headerlink" title="原模型"></a>原模型</h3><p><a target="_blank" rel="noopener" href="https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507">Qwen&#x2F;Qwen3-4B-Thinking-2507</a></p>
-<h1 id=""><a href="#" class="headerlink" title=""></a></h1><h3 id="DeepSeek-R1-Distill-Qwen-1-5B消融"><a href="#DeepSeek-R1-Distill-Qwen-1-5B消融" class="headerlink" title="DeepSeek-R1-Distill-Qwen-1.5B消融"></a>DeepSeek-R1-Distill-Qwen-1.5B消融</h3><p><a target="_blank" rel="noopener" href="https://huggingface.co/huiink/deepseek-r1-1.5B-abliterated">huiink&#x2F;deepseek-r1-1.5B-abliterated</a></p>
+<hr>
+<h3 id="DeepSeek-R1-Distill-Qwen-1-5B消融"><a href="#DeepSeek-R1-Distill-Qwen-1-5B消融" class="headerlink" title="DeepSeek-R1-Distill-Qwen-1.5B消融"></a>DeepSeek-R1-Distill-Qwen-1.5B消融</h3><p><a target="_blank" rel="noopener" href="https://huggingface.co/huiink/deepseek-r1-1.5B-abliterated">huiink&#x2F;deepseek-r1-1.5B-abliterated</a></p>
 <h3 id="DeepSeek-R1-Distill-Qwen-1-5B消融後修復"><a href="#DeepSeek-R1-Distill-Qwen-1-5B消融後修復" class="headerlink" title="DeepSeek-R1-Distill-Qwen-1.5B消融後修復"></a>DeepSeek-R1-Distill-Qwen-1.5B消融後修復</h3><p><a target="_blank" rel="noopener" href="https://huggingface.co/huiink/deepseek-r1-1.5B-abliterated-v2">huiink&#x2F;deepseek-r1-1.5B-abliterated-v2</a></p>
 <h3 id="原模型-1"><a href="#原模型-1" class="headerlink" title="原模型"></a>原模型</h3><p><a target="_blank" rel="noopener" href="https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B">deepseek-ai&#x2F;DeepSeek-R1-Distill-Qwen-1.5B</a></p>
-<h1 id="-1"><a href="#-1" class="headerlink" title=""></a></h1>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1>
 <div id="comment-card" class="comment-card">
   <div class="main-title-bar">
     <div class="main-title-dot"></div>
