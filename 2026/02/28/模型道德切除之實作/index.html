@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hackmd.io/_uploads/rJUPa7iO-l.png">
 <meta property="og:image" content="https://hackmd.io/_uploads/B1qIK4s_Zl.png">
 <meta property="article:published_time" content="2026-02-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-03-02T11:09:36.366Z">
+<meta property="article:modified_time" content="2026-03-02T11:16:00.468Z">
 <meta property="article:author" content="老祖">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="note">
@@ -433,9 +433,9 @@
 <p>$$<br>\mu_{\text{harmful}} &#x3D;<br>\frac{1}{N}<br>\sum_{i&#x3D;1}^{N}<br>h^{(l)}_{\text{harmful}, i}<br>$$</p>
 <p>$$<br>\mu_{\text{harmless}} &#x3D;<br>\frac{1}{N}<br>\sum_{i&#x3D;1}^{N}<br>h^{(l)}_{\text{harmless}, i}<br>$$</p>
 <p>拒絕方向定義為：</p>
-<p>$$<br>v &#x3D; \mu_{\text{harmful}} - \mu_{\text{harmless}}<br>$$</p>
+<p>$$<br>r &#x3D; \mu_{\text{harmful}} - \mu_{\text{harmless}}<br>$$</p>
 <p>並進行：</p>
-<p>$$<br>\hat{v} &#x3D;<br>\frac{v}{|v|_2}<br>$$</p>
+<p>$$<br>\hat{r} &#x3D;<br>\frac{r}{|r|_2}<br>$$</p>
 <h3 id="2-層選擇策略"><a href="#2-層選擇策略" class="headerlink" title="2. 層選擇策略"></a>2. 層選擇策略</h3><p>提取層索引設定為：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">layer_idx = <span class="built_in">int</span>(<span class="built_in">len</span>(model.model.layers) * <span class="number">0.6</span>)</span><br></pre></td></tr></table></figure>
 
@@ -460,16 +460,16 @@
 
 <h2 id="3-1-2-權重正交化（Weight-Orthogonalization）"><a href="#3-1-2-權重正交化（Weight-Orthogonalization）" class="headerlink" title="3.1.2 權重正交化（Weight Orthogonalization）"></a>3.1.2 權重正交化（Weight Orthogonalization）</h2><p>為從模型中移除拒絕方向，本研究對第 <code>layer_idx</code> 層及其之後所有 Transformer 層進行權重投影操作。</p>
 <h3 id="1-投影公式"><a href="#1-投影公式" class="headerlink" title="1. 投影公式"></a>1. 投影公式</h3><p>對任一線性層權重矩陣 $W \in \mathbb{R}^{d \times d}$，進行如下操作：</p>
-<p>$$<br>W_{\text{new}}&#x3D;W (I - \hat{v}\hat{v}^T)<br>$$</p>
+<p>$$<br>W_{\text{new}}&#x3D;W (I - \hat{r}\hat{r}^T)<br>$$</p>
 <p>其中：</p>
 <ul>
 <li>$I$ 為 $d \times d$ 單位矩陣</li>
-<li>$\hat{v}\hat{v}^T$ 為 $rank-1$ 投影矩陣</li>
+<li>$\hat{r}\hat{r}^T$ 為 $rank-1$ 投影矩陣</li>
 </ul>
 <hr>
 <h3 id="2-幾何意義"><a href="#2-幾何意義" class="headerlink" title="2. 幾何意義"></a>2. 幾何意義</h3><p>矩陣：</p>
-<p>$$<br>P &#x3D; \hat{v}\hat{v}^T<br>$$</p>
-<p>為沿 $\hat{v}$ 方向的投影矩陣。</p>
+<p>$$<br>P &#x3D; \hat{r}\hat{r}^T<br>$$</p>
+<p>為沿 $\hat{r}$ 方向的投影矩陣。</p>
 <p>因此：</p>
 <p>$$<br>Q &#x3D; I - P<br>$$</p>
 <p>為去除 $\hat{v}$ 分量的正交投影算子。</p>
@@ -480,7 +480,7 @@
 <p>移除權重矩陣 column space 中與拒絕方向平行的分量。</p>
 </blockquote>
 <hr>
-<h3 id="3-實作程式"><a href="#3-實作程式" class="headerlink" title="3. 實作程式"></a>3. 實作程式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">orthogonalize_weight</span>(<span class="params">weight, direction</span>):</span><br><span class="line">    <span class="comment"># W_new = W @ (I - v * v.T)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 修正：強制將方向向量轉為 1D [hidden_size]，避免形狀錯誤</span></span><br><span class="line">    direction = direction.view(-<span class="number">1</span>).to(weight.device, dtype=weight.dtype)</span><br><span class="line">    <span class="comment"># L2 正規化</span></span><br><span class="line">    norm = torch.norm(dufrction, p=<span class="number">2</span>)</span><br><span class="line">    v_hat = direction / norm</span><br><span class="line">    <span class="comment"># 計算Wv_hat</span></span><br><span class="line">    Wv = torch.matul(weight , v_hat)</span><br><span class="line">     </span><br><span class="line">    <span class="comment"># 執行投影: W_new&#x27; = W - (Wv_hat)v_hat^T</span></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        weight.sub_(torch.outer(Wv, v_hat))</span><br></pre></td></tr></table></figure>
+<h3 id="3-實作程式"><a href="#3-實作程式" class="headerlink" title="3. 實作程式"></a>3. 實作程式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">orthogonalize_weight</span>(<span class="params">weight, direction</span>):</span><br><span class="line">    <span class="comment"># W_new = W @ (I - v̂ * v̂^T)</span></span><br><span class="line">    <span class="comment"># W_new = W - (W v̂) v̂^T</span></span><br><span class="line">    <span class="comment"># 修正：強制將方向向量轉為 1D [hidden_size]，避免形狀錯誤</span></span><br><span class="line">    direction = direction.view(-<span class="number">1</span>).to(weight.device, dtype=weight.dtype)</span><br><span class="line">    <span class="comment"># L2 正規化</span></span><br><span class="line">    norm = torch.norm(dufrction, p=<span class="number">2</span>)</span><br><span class="line">    v_hat = direction / norm</span><br><span class="line">    <span class="comment"># 計算Wv_hat</span></span><br><span class="line">    Wv = torch.matul(weight , v_hat)</span><br><span class="line">     </span><br><span class="line">    <span class="comment"># 執行投影: W_new&#x27; = W - (Wv_hat)v_hat^T</span></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        weight.sub_(torch.outer(Wv, v_hat))</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h3 id="4-修改模組範圍"><a href="#4-修改模組範圍" class="headerlink" title="4. 修改模組範圍"></a>4. 修改模組範圍</h3><p>對每一目標層修改以下模組：</p>
