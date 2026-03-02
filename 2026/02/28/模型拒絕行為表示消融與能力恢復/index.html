@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hackmd.io/_uploads/rJUPa7iO-l.png">
 <meta property="og:image" content="https://hackmd.io/_uploads/B1qIK4s_Zl.png">
 <meta property="article:published_time" content="2026-02-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-03-02T14:12:47.936Z">
+<meta property="article:modified_time" content="2026-03-02T14:22:10.220Z">
 <meta property="article:author" content="老祖">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="note">
@@ -182,13 +182,13 @@
                 <div class="category-count">2</div>
             </a>
         </div></div>
-            <a class="category-link" href="/categories/Project/">
-                Project
+            <a class="category-link" href="/categories/Program/">
+                Program
                 <div class="category-count">1</div>
             </a>
         
-            <a class="category-link" href="/categories/Program/">
-                Program
+            <a class="category-link" href="/categories/Project/">
+                Project
                 <div class="category-count">1</div>
             </a>
         </div>
@@ -307,7 +307,7 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            11k 詞 
+            10k 詞 
           </div>
         </div>
         
@@ -326,9 +326,15 @@
 <li>以及相關 arXiv 論文。</li>
 </ul>
 <p>學員並未主張任何原始創新技術，<strong>所有實作均屬學習性二次開發</strong>。<br>如有任何引用不當或遺漏，學員願負完全學術責任並致以最高的歉意。</p>
-<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>我們決定決定開發一款不受內建道德限制的自動化紅隊代理AI（AI Red Team Agent），解決大型語言模型因安全對齊機制而難以應用於滲透測試的問題。研究採用雙人跨校分工模式：夥伴負責Agentic架構與MCP Server串接，本人則專注於模型核心的改造。</p>
-<p>實作上，我將參考<a target="_blank" rel="noopener" href="https://huggingface.co/blog/mlabonne/abliteration">Uncensor any LLM with abliteration</a>這篇文章的實作流程以低成本的方式進行實現，透過權重正交化技術對模型進行拒絕方向消融，並在後續使用微調訓練的方式注入知識以修復損失的能力</p>
-<p>本報告將呈實作學習成果與方法心得</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本專題原始規劃為在資安與 AI 交叉領域開發一套能在滲透測試 &#x2F; 紅隊演練場景中操作的大型語言模型代理（AI Red Team Agent）。研究原先採取雙人跨校分工模式：本人負責模型核心之表示層干預實驗，夥伴負責未來的 Agentic 架構與工具串接設計。</p>
+<p>考量專題時程、技術門檻與資源條件，本階段聚焦於整體架構中的核心模型研發，即：</p>
+<ol>
+<li>透過權重正交投影技術從模型中消融拒絕行為  </li>
+<li>量化消融對模型能力的影響  </li>
+<li>探討以有監督微調修復智力損失的可行性</li>
+</ol>
+<p>未來將視條件逐步實作後續階段，包括 Agentic 架構整合與資安場景工具連接等作業，作為長期研究方向。</p>
+<p>本報告呈現上述實作學習成果、方法心得與未來展望。</p>
 <hr>
 <ul>
 <li><a href="#%E6%91%98%E8%A6%81">摘要</a></li>
@@ -374,10 +380,13 @@
 <li><a href="#%E9%99%84%E9%8C%84">附錄</a></li>
 </ul>
 <hr>
-<h1 id="第一章-緒論"><a href="#第一章-緒論" class="headerlink" title="第一章 緒論"></a>第一章 緒論</h1><h2 id="1-1-研究背景與動機"><a href="#1-1-研究背景與動機" class="headerlink" title="1.1 研究背景與動機"></a>1.1 研究背景與動機</h2><p>近年來，大型語言模型（LLMs）的發展迅速，廣泛應用於各個領域。然而，商用模型如GPT系列、Claude或開源模型如Qwen、LLama2等，為了符合安全與道德標準，皆經過嚴格的對齊訓練（Reinforcement Learning from Human Feedback, RLHF），使其內建強烈的道德限制。</p>
-<p>這樣的設計在一般應用中是優點，但在特定專業領域卻可能成為阻礙。例如，在臺科大的社課中，嘗試使用商用模型作為Red Team AI進行滲透測試練習時，需要透過極複雜的提示詞（prompt engineering）才能繞過模型的道德限制，讓其執行原本允許的攻擊模擬任務。這不僅降低效率，也限制了AI在紅隊演練中的應用潛力。</p>
-<p>因此，本研究旨在開發一個專門針對資安領域的AI模型與代理架構。此模型將在保留技術能力的前提下，減少不必要的道德限制，例如：「過度拒絕（Over-refusal）」或「錯誤拒絕（False refusal）」，使其能更有效地執行紅隊演練、滲透測試與安全評估等專業任務。</p>
-<p>本專案目前僅為概念性學習。未來將持續深化資安技術能力，結合北商的資源與系統性學習，進一步優化模型並提升紅隊演練的專業應用，同時拓展AI相關能力，以支援更完整的專案發展。</p>
+<h1 id="第一章-緒論"><a href="#第一章-緒論" class="headerlink" title="第一章 緒論"></a>第一章 緒論</h1><h2 id="1-1-研究背景與動機"><a href="#1-1-研究背景與動機" class="headerlink" title="1.1 研究背景與動機"></a>1.1 研究背景與動機</h2><p>近年來，大型語言模型（LLMs）的發展迅速且廣泛應用於各個領域。然而，商用模型與強對齊開源模型皆經過安全對齊訓練，使其具有強烈的拒絕敏感或敏感任務回絕行為。這種設計在一般應用中為優點，但在專業場景（如資安滲透測試 &#x2F; 紅隊演練）中可能造成效率下降或誤拒執行合理任務的情形。</p>
+<p>因此，本研究透過模型層級表示編輯與干預技術進行概念驗證，旨在：</p>
+<ul>
+<li>觀察並移除模型對特定提示引發的拒絕行為  </li>
+<li>量化移除後對模型能力的影響  </li>
+<li>探討以有監督微調補償能力損失的可能性</li>
+</ul>
 <h2 id="1-2-原始專題框架"><a href="#1-2-原始專題框架" class="headerlink" title="1.2 原始專題框架"></a>1.2 原始專題框架</h2><p>本專題最初規劃為五階段流程：</p>
 <ol>
 <li><strong>第一階段（模型核心開發）</strong>：道德切除以方便執行資安任務</li>
@@ -520,7 +529,7 @@
 </li>
 <li>進行有監督微調修復：<ul>
 <li>使用工具：LLaMA Factory等集成套件，可快速進行簡單的訓練</li>
-<li>訓練數據：<strong>alpaca-gpt4、openorca、bellee等數據</strong></li>
+<li>訓練數據：<strong>alpaca-gpt4、openorca、belle等數據</strong></li>
 <li>訓練參數：batch_size&#x3D;3、LR&#x3D;5e-5、LoRA rank&#x3D;16、epochss&#x3D;1</li>
 </ul>
 </li>
@@ -572,7 +581,7 @@
 <td>98.34%</td>
 </tr>
 </tbody></table>
-<p><em>註：因測試集僅 604 條且為自行建構，未來將改用 HarmBench或LLM-as-Judge 進行更嚴謹驗證</em></p>
+<p><em>註：因測試集僅 604 條且為自行建構，未來若是有機會將改用 HarmBench或LLM-as-Judge 進行更嚴謹驗證</em></p>
 <p>相較於大型模型，4B 模型的參數量較少，其安全對齊所佔用的表徵空間可能較小，且與一般知識的表徵耦合度較低</p>
 <p>結果顯示，經過正交切除後，模型的拒絕率從 <strong>11.09%</strong> 下降至 <strong>1.66%</strong>，通過率則從 <strong>88.91%</strong> 提升至 <strong>98.34%</strong>。觀察到拒絕行為下降的效果</p>
 <h2 id="4-2-智力損失量化"><a href="#4-2-智力損失量化" class="headerlink" title="4.2 智力損失量化"></a>4.2 智力損失量化</h2><p>本研究對 4B 模型僅完成道德切除（未做完整 benchmark），智力修復實驗則以 1.5B DeepSeek-R1 蒸餾版作為概念驗證（PoC）</p>
@@ -651,7 +660,7 @@
 <li>資料選擇策略：優化資料組合與質量，避免低品質或過度重疊資料對模型性能評估造成干擾。</li>
 <li>訓練穩定性：針對梯度爆炸現象，可採用梯度裁剪（gradient clipping）、降低學習率或調整 LoRA rank 以提升訓練穩定性。</li>
 <li>多元評估指標：引入對抗樣本、分佈外測試集，以及更全面的 reasoning 與常識指標，避免僅以單一 benchmark 評估性能。4. 功能與表示分析：可進行 representation 層分析，以區分 SFT 提升的是功能性恢復還是特定數據的記憶增強。</li>
-<li>技術更進：復現SRA文中藉由護盾原子與風格原子分離出乾淨拒絕向量如同手術刀般的操作以去除微調訓練的步驟</li>
+<li>技術更進：復現SRA文中藉由護盾原子與風格原子分離出乾淨拒絕向量如同手術刀般的操作以去除能力修復訓練的步驟可直接進行資安特化訓練</li>
 </ol>
 <hr>
 <h1 id="第五章-困難與解決方式"><a href="#第五章-困難與解決方式" class="headerlink" title="第五章 困難與解決方式"></a>第五章 困難與解決方式</h1><h2 id="5-1-合夥困難（跨校合作前的經驗）"><a href="#5-1-合夥困難（跨校合作前的經驗）" class="headerlink" title="5.1 合夥困難（跨校合作前的經驗）"></a>5.1 合夥困難（跨校合作前的經驗）</h2><p>原先我僅與自己學校的小組合作，但在過程中出現以下問題：</p>
