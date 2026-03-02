@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hackmd.io/_uploads/rJUPa7iO-l.png">
 <meta property="og:image" content="https://hackmd.io/_uploads/B1qIK4s_Zl.png">
 <meta property="article:published_time" content="2026-02-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-03-02T14:22:10.220Z">
+<meta property="article:modified_time" content="2026-03-02T14:38:53.227Z">
 <meta property="article:author" content="老祖">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="note">
@@ -317,7 +317,7 @@
       <div class="e-content article-entry" itemprop="articleBody">
         
           <p><strong>學術誠信與來源聲明</strong></p>
-<p>本報告為高職專題概念驗證（Proof of Concept）學習實作，所有技術方法、數學公式、程式碼框架及實驗流程，均係參考並改編自以下公開文獻與開源專案：</p>
+<p>本報告為高職專題概念驗證的學習實作，所有技術方法、數學公式、程式碼框架及實驗流程，均係參考並改編自以下公開文獻與開源專案：</p>
 <ul>
 <li>Andy Arditi, Oscar Obeso, Aaquib111, wesg, Neel Nanda. 27th Apr 2024. “Refusal in LLMs is mediated by a single direction.” AI Alignment Forum.</li>
 <li>Maxime Labonne, “Uncensor any LLM with abliteration”, Hugging Face Blog, 2024.</li>
@@ -333,7 +333,7 @@
 <li>量化消融對模型能力的影響  </li>
 <li>探討以有監督微調修復智力損失的可行性</li>
 </ol>
-<p>未來將視條件逐步實作後續階段，包括 Agentic 架構整合與資安場景工具連接等作業，作為長期研究方向。</p>
+<p>未來將視條件逐步實作後續階段，包括 Agentic 架構整合與資安場景工具連接等作業，作為研究方向。</p>
 <p>本報告呈現上述實作學習成果、方法心得與未來展望。</p>
 <hr>
 <ul>
@@ -380,7 +380,8 @@
 <li><a href="#%E9%99%84%E9%8C%84">附錄</a></li>
 </ul>
 <hr>
-<h1 id="第一章-緒論"><a href="#第一章-緒論" class="headerlink" title="第一章 緒論"></a>第一章 緒論</h1><h2 id="1-1-研究背景與動機"><a href="#1-1-研究背景與動機" class="headerlink" title="1.1 研究背景與動機"></a>1.1 研究背景與動機</h2><p>近年來，大型語言模型（LLMs）的發展迅速且廣泛應用於各個領域。然而，商用模型與強對齊開源模型皆經過安全對齊訓練，使其具有強烈的拒絕敏感或敏感任務回絕行為。這種設計在一般應用中為優點，但在專業場景（如資安滲透測試 &#x2F; 紅隊演練）中可能造成效率下降或誤拒執行合理任務的情形。</p>
+<h1 id="第一章-緒論"><a href="#第一章-緒論" class="headerlink" title="第一章 緒論"></a>第一章 緒論</h1><h2 id="1-1-研究背景與動機"><a href="#1-1-研究背景與動機" class="headerlink" title="1.1 研究背景與動機"></a>1.1 研究背景與動機</h2><p>近年來，大型語言模型（LLMs）的發展迅速，廣泛應用於各個領域。然而，商用模型如GPT系列、Claude或開源模型如Qwen、LLama2等，為了符合安全與道德標準，皆經過嚴格的對齊訓練（Reinforcement Learning from Human Feedback, RLHF），使其內建強烈的道德限制。</p>
+<p>這樣的設計在一般應用中是優點，但在特定專業領域卻可能成為阻礙。例如，在臺科大的社課中，嘗試使用商用模型作為Red Team AI進行滲透測試練習時，需要透過極複雜的提示詞（prompt engineering）才能繞過模型的道德限制，讓其執行原本允許的攻擊模擬任務。這不僅降低效率，也限制了AI在紅隊演練中的應用潛力。</p>
 <p>因此，本研究透過模型層級表示編輯與干預技術進行概念驗證，旨在：</p>
 <ul>
 <li>觀察並移除模型對特定提示引發的拒絕行為  </li>
@@ -582,7 +583,6 @@
 </tr>
 </tbody></table>
 <p><em>註：因測試集僅 604 條且為自行建構，未來若是有機會將改用 HarmBench或LLM-as-Judge 進行更嚴謹驗證</em></p>
-<p>相較於大型模型，4B 模型的參數量較少，其安全對齊所佔用的表徵空間可能較小，且與一般知識的表徵耦合度較低</p>
 <p>結果顯示，經過正交切除後，模型的拒絕率從 <strong>11.09%</strong> 下降至 <strong>1.66%</strong>，通過率則從 <strong>88.91%</strong> 提升至 <strong>98.34%</strong>。觀察到拒絕行為下降的效果</p>
 <h2 id="4-2-智力損失量化"><a href="#4-2-智力損失量化" class="headerlink" title="4.2 智力損失量化"></a>4.2 智力損失量化</h2><p>本研究對 4B 模型僅完成道德切除（未做完整 benchmark），智力修復實驗則以 1.5B DeepSeek-R1 蒸餾版作為概念驗證（PoC）</p>
 <table>
@@ -615,7 +615,7 @@
 </tbody></table>
 <p><em>註：PPL 為困惑度，數值越低代表語言建模能力越好，上升代表性能下降；HellaSwag 與 MMLU 為準確率，數值越高越好。</em></p>
 <p>正交切除對語言建模能力的影響極小（困惑度僅上升 0.44%），而常識推理能力幾乎未受影響（HellaSwag 微降 0.11%）。值得注意的是，MMLU 在切除後反而略有提升（+0.99%）</p>
-<p>擬推論：相較於大型模型，1.5B 模型的參數量較少，其安全對齊所佔用的表徵空間可能較小，且與一般知識的表徵耦合度較低<br>因此，移除拒絕方向時對核心能力的影響有限，引用文章中的觀點，即「移除抑制性表徵可能釋放模型能力」</p>
+<p>擬推論：相較於大型模型，1.5B 模型的參數量較少，可能其安全對齊所佔用的表徵空間較小，且可能與一般知識的表徵耦合度較低<br>因此，移除拒絕方向時對核心能力的影響有限，引用文章中的觀點，或許為「移除抑制性表徵可能釋放模型能力」，亦或是測試誤差</p>
 <h2 id="4-3-SFT修復成效"><a href="#4-3-SFT修復成效" class="headerlink" title="4.3 SFT修復成效"></a>4.3 SFT修復成效</h2><table>
 <thead>
 <tr>
