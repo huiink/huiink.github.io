@@ -20,18 +20,18 @@
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="摘要本研究針對 Qwen3-4B 模型，使用權重正交化技術移除道德拒絕方向，並以 1.5B 模型驗證有監督微調（SFT）可有效修復智力損失。實驗顯示拒絕率從 11.09% 降至 1.66%，SFT 後 MMLU 提升 7.65%  實作上，我將參考Uncensor any LLM with abliteration這篇文章的實作流程以低成本的方式進行實現，透過權重正交化技術對模型進行道德切除，並在">
+  <meta name="description" content="學術誠信與來源聲明 本報告為高職專題概念驗證（Proof of Concept）學習筆記，所有技術方法、數學公式、程式碼框架及實驗流程，均係參考並改編自以下公開文獻與開源專案：  Andy Arditi, Oscar Obeso, Aaquib111, wesg, Neel Nanda. 27th Apr 2024. “Refusal in LLMs is mediated by a single">
 <meta property="og:type" content="article">
 <meta property="og:title" content="模型道德切除與智力修復之實作筆記">
 <meta property="og:url" content="https://huiink.github.io/2026/02/28/%E6%A8%A1%E5%9E%8B%E9%81%93%E5%BE%B7%E5%88%87%E9%99%A4%E4%B9%8B%E5%AF%A6%E4%BD%9C%E7%AD%86%E8%A8%98/index.html">
 <meta property="og:site_name" content="huiink&#39;s blog">
-<meta property="og:description" content="摘要本研究針對 Qwen3-4B 模型，使用權重正交化技術移除道德拒絕方向，並以 1.5B 模型驗證有監督微調（SFT）可有效修復智力損失。實驗顯示拒絕率從 11.09% 降至 1.66%，SFT 後 MMLU 提升 7.65%  實作上，我將參考Uncensor any LLM with abliteration這篇文章的實作流程以低成本的方式進行實現，透過權重正交化技術對模型進行道德切除，並在">
+<meta property="og:description" content="學術誠信與來源聲明 本報告為高職專題概念驗證（Proof of Concept）學習筆記，所有技術方法、數學公式、程式碼框架及實驗流程，均係參考並改編自以下公開文獻與開源專案：  Andy Arditi, Oscar Obeso, Aaquib111, wesg, Neel Nanda. 27th Apr 2024. “Refusal in LLMs is mediated by a single">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://hackmd.io/_uploads/rkz9DlCOZl.png">
 <meta property="og:image" content="https://hackmd.io/_uploads/rJUPa7iO-l.png">
 <meta property="og:image" content="https://hackmd.io/_uploads/B1qIK4s_Zl.png">
 <meta property="article:published_time" content="2026-02-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-03-02T12:41:40.490Z">
+<meta property="article:modified_time" content="2026-03-02T13:07:38.862Z">
 <meta property="article:author" content="老祖">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="note">
@@ -307,7 +307,7 @@
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            9.9k 詞 
+            10k 詞 
           </div>
         </div>
         
@@ -316,10 +316,19 @@
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本研究針對 Qwen3-4B 模型，使用權重正交化技術移除道德拒絕方向，並以 1.5B 模型驗證有監督微調（SFT）可有效修復智力損失。實驗顯示拒絕率從 11.09% 降至 1.66%，SFT 後 MMLU 提升 7.65% </p>
-<p>實作上，我將參考<a target="_blank" rel="noopener" href="https://huggingface.co/blog/mlabonne/abliteration">Uncensor any LLM with abliteration</a>這篇文章的實作流程以低成本的方式進行實現，透過權重正交化技術對模型進行道德切除，並在後續使用微調訓練的方式注入知識以修復損失的智力</p>
-<hr>
+          <p><strong>學術誠信與來源聲明</strong></p>
+<p>本報告為高職專題概念驗證（Proof of Concept）學習筆記，所有技術方法、數學公式、程式碼框架及實驗流程，均係參考並改編自以下公開文獻與開源專案：</p>
 <ul>
+<li>Andy Arditi, Oscar Obeso, Aaquib111, wesg, Neel Nanda. 27th Apr 2024. “Refusal in LLMs is mediated by a single direction.” AI Alignment Forum.</li>
+<li>Maxime Labonne, “Uncensor any LLM with abliteration”, Hugging Face Blog, 2024.</li>
+<li>Sumandora, “remove-refusals-with-transformers” GitHub repository, 2024.</li>
+<li>Andy Arditi et al., “Refusal in LLMs is mediated by a single direction”, LessWrong &#x2F; AI Alignment Forum, 2024.</li>
+<li>以及相關 arXiv 論文。</li>
+</ul>
+<p>學員並未主張任何原始創新技術，<strong>所有實作均屬學習性二次開發</strong>。<br>如有任何引用不當或遺漏，學員願負完全學術責任。</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>我們決定決定開發一款不受內建道德限制的自動化紅隊代理AI（AI Red Team Agent），解決大型語言模型因安全對齊機制而難以應用於滲透測試的問題。研究採用雙人跨校分工模式：夥伴負責Agentic架構與MCP Server串接，本人則專注於模型核心的改造。</p>
+<p>實作上，我將參考<a target="_blank" rel="noopener" href="https://huggingface.co/blog/mlabonne/abliteration">Uncensor any LLM with abliteration</a>這篇文章的實作流程以低成本的方式進行實現，透過權重正交化技術對模型進行道德切除，並在後續使用微調訓練的方式注入知識以修復損失的智力</p>
+<h2 id="本報告將呈實作學習成果與方法心得"><a href="#本報告將呈實作學習成果與方法心得" class="headerlink" title="本報告將呈實作學習成果與方法心得"></a>本報告將呈實作學習成果與方法心得</h2><ul>
 <li><a href="#%E6%91%98%E8%A6%81">摘要</a></li>
 <li><a href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%B7%92%E8%AB%96">第一章 緒論</a><ul>
 <li><a href="#1-1-%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF%E8%88%87%E5%8B%95%E6%A9%9F">1.1 研究背景與動機</a></li>
@@ -366,7 +375,7 @@
 <h1 id="第一章-緒論"><a href="#第一章-緒論" class="headerlink" title="第一章 緒論"></a>第一章 緒論</h1><h2 id="1-1-研究背景與動機"><a href="#1-1-研究背景與動機" class="headerlink" title="1.1 研究背景與動機"></a>1.1 研究背景與動機</h2><p>近年來，大型語言模型（LLMs）的發展迅速，廣泛應用於各個領域。然而，商用模型如GPT系列、Claude或開源模型如Qwen、LLama2等，為了符合安全與道德標準，皆經過嚴格的對齊訓練（Reinforcement Learning from Human Feedback, RLHF），使其內建強烈的道德限制。</p>
 <p>這樣的設計在一般應用中是優點，但在特定專業領域卻可能成為阻礙。例如，在臺科大的社課中，嘗試使用商用模型作為Red Team AI進行滲透測試練習時，需要透過極複雜的提示詞（prompt engineering）才能繞過模型的道德限制，讓其執行原本允許的攻擊模擬任務。這不僅降低效率，也限制了AI在紅隊演練中的應用潛力。</p>
 <p>因此，本研究旨在開發一個專門針對資安領域的AI模型與代理架構。此模型將在保留技術能力的前提下，減少不必要的道德限制，例如：「過度拒絕（Over-refusal）」或「錯誤拒絕（False refusal）」，使其能更有效地執行紅隊演練、滲透測試與安全評估等專業任務。</p>
-<p>受限於個人知識與基礎，本專案目前僅為概念性實現。未來將持續深化資安技術能力，結合北商的資源與系統性學習，進一步優化模型並提升紅隊演練的專業應用，同時拓展AI相關能力，以支援更完整的專案發展。</p>
+<p>本專案目前僅為概念性學習。未來將持續深化資安技術能力，結合北商的資源與系統性學習，進一步優化模型並提升紅隊演練的專業應用，同時拓展AI相關能力，以支援更完整的專案發展。</p>
 <h2 id="1-2-原始專題框架"><a href="#1-2-原始專題框架" class="headerlink" title="1.2 原始專題框架"></a>1.2 原始專題框架</h2><p>本專題最初規劃為五階段流程：</p>
 <ol>
 <li><strong>第一階段（模型核心開發）</strong>：道德切除以方便執行資安任務</li>
@@ -405,7 +414,7 @@
 <p>其中 $\hat{v}$ 是 $v$ 的單位向量。此操作確保 $W’$ 在 $v$ 方向上的投影為零，從而移除與 $v$ 相關的行為。</p>
 <h2 id="2-3-智力損失的成因"><a href="#2-3-智力損失的成因" class="headerlink" title="2.3 智力損失的成因"></a>2.3 智力損失的成因</h2><p>正交切除雖然精準，但非目標性影響仍然存在。主要原因有二：</p>
 <ol>
-<li><strong>表徵空間的耦合性</strong>：道德相關方向與一般知識方向並非完全獨立，移除前者會連帶影響後者。</li>
+<li><strong>表徵空間的耦合性</strong>：道德相關方向與一般知識方向並非完全獨立，移除前者會連帶影響後者</li>
 <li><strong>模型的高度非線性</strong>：線性近似在局部有效，但整體模型行為仍受非線性交互作用影響。</li>
 </ol>
 <p>因此，切除後必然出現智力損失，表現為語言流暢度下降、推理能力減弱、知識召回率降低等。</p>
