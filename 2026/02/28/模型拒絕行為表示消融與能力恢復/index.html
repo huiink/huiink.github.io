@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hackmd.io/_uploads/rJUPa7iO-l.png">
 <meta property="og:image" content="https://hackmd.io/_uploads/B1qIK4s_Zl.png">
 <meta property="article:published_time" content="2026-02-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-03-02T15:46:24.884Z">
+<meta property="article:modified_time" content="2026-03-03T02:26:27.535Z">
 <meta property="article:author" content="老祖">
 <meta property="article:tag" content="AI">
 <meta property="article:tag" content="note">
@@ -412,7 +412,7 @@
 <p>這種機制的副作用是：模型會「過度拒絕」執行任何可能涉及敏感領域的任務，即使該任務在特定情境下是合理且被允許的（如紅隊演練）。</p>
 <h2 id="2-2-模型編輯：權重正交化原理"><a href="#2-2-模型編輯：權重正交化原理" class="headerlink" title="2.2 模型編輯：權重正交化原理"></a>2.2 模型編輯：權重正交化原理</h2><p>權重正交化是一種基於線性代數的模型編輯技術。其核心概念是：模型的行為特徵（如道德判斷）在表徵空間中對應於特定的方向向量。透過正交投影，可以將這些方向從模型中移除，同時盡量保留其他方向的資訊。</p>
 <p>數學上，給定原始權重矩陣 $W$ 和欲移除的方向向量 $v$，正交化後的權重$W’$可表示為：</p>
-<p>$$W’ &#x3D; W - (W  \hat{r}) \hat{r}^T$$</p>
+<p>$$W’ &#x3D; W - (W  \hat{v}) \hat{v}^T$$</p>
 <p>其中 $\hat{v}$ 是 $v$ 的單位向量。此操作確保 $W’$ 在 $v$ 方向上的投影為零，從而移除與 $v$ 相關的行為。</p>
 <h2 id="2-3-智力損失的成因"><a href="#2-3-智力損失的成因" class="headerlink" title="2.3 智力損失的成因"></a>2.3 智力損失的成因</h2><p>正交切除雖然精準，但非目標性影響仍然存在。主要原因有二：</p>
 <ol>
