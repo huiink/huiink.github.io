@@ -3,15 +3,14 @@ function loadSettings() {
     if (storedTheme === 'light' || storedTheme === 'dark') {
         document.documentElement.setAttribute('theme', storedTheme);
     } else {
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('theme', prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('theme', 'dark');
     }
 
-    let showBanner = localStorage.getItem("showBanner");
-    if (showBanner == null || showBanner == undefined || showBanner == "true") {
-        document.documentElement.setAttribute('showBanner', true)
+    let showBanner = localStorage.getItem('showBanner');
+    if (showBanner == null || showBanner == undefined || showBanner == 'true') {
+        document.documentElement.setAttribute('showBanner', true);
     } else {
-        document.documentElement.setAttribute('showBanner', false)
+        document.documentElement.setAttribute('showBanner', false);
     }
-};
+}
 loadSettings();
