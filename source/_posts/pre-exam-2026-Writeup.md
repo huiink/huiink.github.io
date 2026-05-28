@@ -1,6 +1,6 @@
 ---
 title: pre-exam 2026 Writeup
-date: 2026-05-18 03:45:00
+date: 2026-05-18 
 categories:
   - 競賽
   - CTF

@@ -1,6 +1,6 @@
 ---
 title: THJCC 2026 writeup
-date: 2026-02-22 00:00:00
+date: 2026-02-22
 categories:
   - 競賽
   - CTF

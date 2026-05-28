@@ -1,6 +1,6 @@
 ---
 title: 11401FhCTF Writeup
-date: 2026-01-09 03:45:00
+date: 2026-01-09
 categories:
   - 競賽
   - CTF
