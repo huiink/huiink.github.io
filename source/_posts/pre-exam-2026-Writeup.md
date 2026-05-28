@@ -9,6 +9,8 @@ tags:
   - note
   - CTF
   - web
+photos:
+  - /img/AIS3_logo.png
 description: |-
   無義的征伐 不之疲倦的神明
   不願死去 迂腐不堪 
