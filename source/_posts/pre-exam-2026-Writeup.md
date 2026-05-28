@@ -9,7 +9,11 @@ tags:
   - note
   - CTF
   - web
+description: |-
+  無義的征伐 不之疲倦的神明
+  不願死去 迂腐不堪 
 ---
+
 
 pre-exam 2026 Writeup
 ===
