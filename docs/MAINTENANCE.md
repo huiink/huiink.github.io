@@ -28,6 +28,7 @@ npm.cmd run preview -- --port 4001
 | `source/css/custom/friends.css` | Friends page card styling. |
 | `scripts/` | Hexo build hooks. |
 | `scripts/lib/` | Small shared helper modules used by build hooks. |
+| `scripts/description-breaks.js` | Restores line breaks in Vivia home-card descriptions. |
 | `tools/` | One-off recovery and migration helpers. |
 | `.github/workflows/deploy.yml` | GitHub Actions deployment workflow. |
 
@@ -63,6 +64,15 @@ tags:
 ---
 
 文章內容
+```
+
+Multi-line `description` values are supported and will appear with line breaks on Vivia article cards:
+
+```yml
+description: |-
+  第一行
+  第二行
+  第三行
 ```
 
 ## Comments

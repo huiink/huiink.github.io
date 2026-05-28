@@ -9,16 +9,6 @@ home:
   style: default
 
 favicon:
-  light:
-    small: /images/favicon-light-32.png
-    medium: /images/favicon-light-128.png
-    apple_touch_icon: /images/favicon-light-180.png
-    safari_pinned_tab: /images/favicon-light-192.png
-  dark:
-    small: /images/favicon-dark-32.png
-    medium: /images/favicon-dark-128.png
-    apple_touch_icon: /images/favicon-dark-180.png
-    safari_pinned_tab: /images/favicon-dark-192.png
 
 banner:
   enable: true
