@@ -83,8 +83,8 @@ Set `comments: false` in a post or page front matter to disable comments on that
 
 ## Deployment
 
-This source lives in `huiink/huiink-blog-source-` on the `main` branch. Pushes to `main` trigger GitHub Actions.
+This source lives in `huiink/huiink.github.io` on the `source` branch. Pushes to `source` trigger GitHub Actions.
 
-The workflow builds Hexo and publishes `public/` to the `main` branch of `huiink/huiink.github.io`, which is the GitHub Pages repository.
+The workflow builds Hexo and publishes `public/` to the `main` branch of the same repository, which is the GitHub Pages branch.
 
-Cross-repository publishing requires the source repository secret `PAGES_DEPLOY_TOKEN`. If it is missing, the workflow builds successfully and skips publishing.
+No personal access token is required for this single-repository deployment.

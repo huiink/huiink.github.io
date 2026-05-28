@@ -4,8 +4,10 @@ Hexo source for `https://huiink.github.io/`.
 
 ## Repository layout
 
-- `huiink/huiink-blog-source-`: Hexo source, posts, config, and maintenance scripts.
-- `huiink/huiink.github.io`: generated GitHub Pages output only.
+This project uses one GitHub repository:
+
+- `huiink/huiink.github.io` `source` branch: Hexo source, posts, config, and maintenance scripts.
+- `huiink/huiink.github.io` `main` branch: generated GitHub Pages output.
 - `huiink/huiink-comments`: giscus comments and discussions.
 
 ## Local maintenance
@@ -24,7 +26,7 @@ More detailed maintenance notes are in `docs/MAINTENANCE.md`.
 
 ## Normal update flow
 
-Work in this source repository:
+Work on the `source` branch:
 
 ```powershell
 git add .
@@ -32,25 +34,9 @@ git commit -m "Update blog"
 git push
 ```
 
-Pushing to `main` runs GitHub Actions. The workflow builds Hexo and publishes the generated `public/` folder to `huiink/huiink.github.io`.
+Pushing to `source` runs GitHub Actions. The workflow builds Hexo and publishes the generated `public/` folder to the `main` branch in the same repository.
 
-## First-time deployment token
-
-Because the source repository deploys to a different repository, GitHub Actions needs a secret named `PAGES_DEPLOY_TOKEN`.
-
-Create a fine-grained GitHub personal access token with access only to `huiink/huiink.github.io`, and give it:
-
-- Repository permissions: `Contents` read and write.
-
-Then add it here:
-
-```text
-huiink-blog-source- -> Settings -> Secrets and variables -> Actions -> New repository secret
-Name: PAGES_DEPLOY_TOKEN
-Value: your token
-```
-
-Before the secret exists, Actions will still build the site, but it will skip publishing.
+No personal access token is required for this single-repository deployment.
 
 ## Friends
 
