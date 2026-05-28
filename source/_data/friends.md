@@ -6,7 +6,7 @@
 - name: siewilly
   url: https://blog.siewilly.me/
   desc: AI 鬼佬
-  image: https://blog.siewilly.me/avatar/avatar.webp
+  image: https://blog.siewilly.me/images/owner_avatar.jpg
 
 - name: Jackoha
   url: https://jackoha.github.io/
