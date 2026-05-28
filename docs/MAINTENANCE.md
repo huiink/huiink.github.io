@@ -87,4 +87,6 @@ This source lives in `huiink/huiink.github.io` on the `source` branch. Pushes to
 
 The workflow builds Hexo and publishes `public/` to the `main` branch of the same repository, which is the GitHub Pages branch.
 
+The workflow sets `TZ: Asia/Taipei` so date-only post front matter generates the same permalink date locally and on GitHub Actions.
+
 No personal access token is required for this single-repository deployment.
