@@ -1,0 +1,76 @@
+menu:
+  主頁: /
+  彙整: /archives
+  關於: /about
+  友鏈: /friends
+rss: /atom.xml
+
+home:
+  style: default
+
+favicon:
+  light:
+    small: /images/favicon-light-32.png
+    medium: /images/favicon-light-128.png
+    apple_touch_icon: /images/favicon-light-180.png
+    safari_pinned_tab: /images/favicon-light-192.png
+  dark:
+    small: /images/favicon-dark-32.png
+    medium: /images/favicon-dark-128.png
+    apple_touch_icon: /images/favicon-dark-180.png
+    safari_pinned_tab: /images/favicon-dark-192.png
+
+banner:
+  enable: true
+  url: /cover.webp
+  position: center
+  onAllPages: true
+
+hue: 300
+
+avatar: /avatar.webp
+author: 老祖
+subtitle: 保障每天三小時的睡眠
+links:
+  - name: IG
+    icon: fa-brands fa-instagram
+    url: https://www.instagram.com/hui.ink_/
+  - name: Steam
+    icon: fa-brands fa-steam
+    url: https://steamcommunity.com/id/h0730/
+  - name: GitHub
+    icon: fa-brands fa-github
+    url: https://github.com/huiink
+  - name: Email
+    icon: fa-solid fa-envelope
+    url: mailto:huanghongjunh2@gmail.com
+  - name: DC
+    icon: fa-brands fa-discord
+    url: https://discord.com/users/1124244726913179679
+
+sidebar:
+  widgets:
+    normal:
+      - profile
+    sticky:
+      - category
+      - tag
+      - archive
+      - recent_posts
+
+archive_type: monthly
+recent_posts_limits: 5
+categories:
+  max_depth: 2
+
+comment:
+  valine:
+    enable: false
+  twikoo:
+    enable: false
+  waline:
+    enable: false
+
+gauges_analytics: false
+google_analytics: false
+baidu_analytics: false
