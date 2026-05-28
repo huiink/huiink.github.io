@@ -22,7 +22,7 @@ pre-exam 2026 Writeup
 
 
 真的很好奇那些針對AI的題目到底是什麼思路 有機會採訪一下
-~~這或許能讓我在AI的研究上有一大進步~~(
+~~這或許能讓我在AI的研究上有一大進步~~(喜
 ![螢幕擷取畫面 2026-05-18 170429](https://hackmd.io/_uploads/rks0_NHezg.png)
 
 ## Welcome
@@ -30,7 +30,7 @@ pre-exam 2026 Writeup
 得到一有flag的圖片
 ![螢幕擷取畫面 2026-05-18 123153](https://hackmd.io/_uploads/Skgvw4reze.png)
 
-`ais3{hello_llm_welcome to_pre exam 2026!}`
+`AIS3{hello_llm_welcome_to_pre_exam_2026!}`
 ## Jail
 Linux 核心解析 shebang 時，有個 buffer 上限（通常是 128 bytes）。如果 shebang 行超過這個長度：
 
