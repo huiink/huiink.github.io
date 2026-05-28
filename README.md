@@ -1,42 +1,56 @@
-# huiink's blog
+# huiink's blog source
 
 Hexo source for `https://huiink.github.io/`.
 
+## Repository layout
+
+- `huiink/huiink-blog-source-`: Hexo source, posts, config, and maintenance scripts.
+- `huiink/huiink.github.io`: generated GitHub Pages output only.
+- `huiink/huiink-comments`: giscus comments and discussions.
+
 ## Local maintenance
 
-```bash
-npm install
-npm run build
-npm run preview
+Use `npm.cmd` on Windows PowerShell if `npm` is blocked by the execution policy.
+
+```powershell
+npm.cmd install
+npm.cmd run build
+npm.cmd run preview
 ```
 
-Posts live in `source/_posts/`. Static assets that should be copied into the generated site live under `source/`.
+Open `http://localhost:4000/` after the preview server starts.
 
 More detailed maintenance notes are in `docs/MAINTENANCE.md`.
 
-## Deployment flow
+## Normal update flow
 
-Use the `source` branch for this source project. GitHub Actions builds Hexo on every push to `source`, then publishes the generated `public/` folder to the `main` branch used by GitHub Pages.
+Work in this source repository:
 
-```bash
-git init -b source
-git add .
-git commit -m "Restore Hexo source"
-git remote add origin https://github.com/huiink/huiink.github.io.git
-git push -u origin source
-```
-
-After that, normal updates are:
-
-```bash
+```powershell
 git add .
 git commit -m "Update blog"
 git push
 ```
 
-## Comments
+Pushing to `main` runs GitHub Actions. The workflow builds Hexo and publishes the generated `public/` folder to `huiink/huiink.github.io`.
 
-Comments are powered by giscus through `huiink/huiink-comments`. Configuration lives in `source/_data/giscus.json`; the integration hook is `scripts/giscus.js`.
+## First-time deployment token
+
+Because the source repository deploys to a different repository, GitHub Actions needs a secret named `PAGES_DEPLOY_TOKEN`.
+
+Create a fine-grained GitHub personal access token with access only to `huiink/huiink.github.io`, and give it:
+
+- Repository permissions: `Contents` read and write.
+
+Then add it here:
+
+```text
+huiink-blog-source- -> Settings -> Secrets and variables -> Actions -> New repository secret
+Name: PAGES_DEPLOY_TOKEN
+Value: your token
+```
+
+Before the secret exists, Actions will still build the site, but it will skip publishing.
 
 ## Friends
 
@@ -49,12 +63,16 @@ Friend links are listed in `source/_data/friends.md`:
   image: 頭像網址
 ```
 
+## Comments
+
+Comments are powered by giscus through `huiink/huiink-comments`. Configuration lives in `source/_data/giscus.json`; the integration hook is `scripts/giscus.js`.
+
 ## Recovery helper
 
 The original root-level Markdown files were copied into Hexo posts with:
 
-```bash
-npm run restore-posts
+```powershell
+npm.cmd run restore-posts
 ```
 
 Only run that again if you intentionally want to regenerate `source/_posts` from the root Markdown backups.

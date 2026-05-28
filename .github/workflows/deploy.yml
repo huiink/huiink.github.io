@@ -3,11 +3,11 @@ name: Deploy Hexo to GitHub Pages
 on:
   push:
     branches:
-      - source
+      - main
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: github-pages
@@ -16,6 +16,8 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      PAGES_DEPLOY_TOKEN: ${{ secrets.PAGES_DEPLOY_TOKEN }}
 
     steps:
       - name: Checkout source
@@ -35,12 +37,19 @@ jobs:
       - name: Build Hexo site
         run: npm run build
 
-      - name: Publish public folder to main
+      - name: Publish public folder to huiink.github.io
+        if: env.PAGES_DEPLOY_TOKEN != ''
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          external_repository: huiink/huiink.github.io
           publish_branch: main
           publish_dir: ./public
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
           commit_message: Deploy Hexo site from ${{ github.sha }}
+
+      - name: Skip publish when deploy token is missing
+        if: env.PAGES_DEPLOY_TOKEN == ''
+        run: |
+          echo "::warning::PAGES_DEPLOY_TOKEN is not set. Build succeeded, but the site was not published to huiink/huiink.github.io."

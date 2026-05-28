@@ -10,6 +10,12 @@ npm.cmd run preview
 
 Open `http://localhost:4000/` after the preview server starts.
 
+If port 4000 is already used:
+
+```powershell
+npm.cmd run preview -- --port 4001
+```
+
 ## Directory Map
 
 | Path | Purpose |
@@ -67,4 +73,8 @@ Set `comments: false` in a post or page front matter to disable comments on that
 
 ## Deployment
 
-Work on the `source` branch. Pushes to `source` trigger GitHub Actions, which builds Hexo and publishes `public/` to the `main` branch.
+This source lives in `huiink/huiink-blog-source-` on the `main` branch. Pushes to `main` trigger GitHub Actions.
+
+The workflow builds Hexo and publishes `public/` to the `main` branch of `huiink/huiink.github.io`, which is the GitHub Pages repository.
+
+Cross-repository publishing requires the source repository secret `PAGES_DEPLOY_TOKEN`. If it is missing, the workflow builds successfully and skips publishing.
