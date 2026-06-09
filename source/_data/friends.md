@@ -37,3 +37,8 @@
   url: https://blog.tsau8888.qzz.io
   desc: 被程式綁架的程序猿
   image: https://blog.tsau8888.qzz.io/avatar.jpg
+
+- name: R3X DJ
+  url: https://r3xdj.github.io
+  desc: 對不起我都在 Vibe Hacking
+  image: https://r3xdj.github.io/img/icy_star.png
