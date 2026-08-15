@@ -1,4 +1,4 @@
-name: Deploy Hexo to GitHub Pages
+name: Deploy Fuwari to GitHub Pages
 
 on:
   push:
@@ -11,6 +11,7 @@ permissions:
 
 env:
   TZ: Asia/Taipei
+  ASTRO_TELEMETRY_DISABLED: 1
 
 concurrency:
   group: github-pages
@@ -26,24 +27,30 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.14.4
+          run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      - name: Build Hexo site
-        run: npm run build
+      - name: Build Fuwari site
+        run: pnpm build
 
-      - name: Publish public folder to main
+      - name: Publish dist folder to main
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: main
-          publish_dir: ./public
+          publish_dir: ./dist
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit_message: Deploy Hexo site from ${{ github.sha }}
+          commit_message: Deploy Fuwari site from ${{ github.sha }}

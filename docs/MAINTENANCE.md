@@ -1,40 +1,74 @@
 # Blog Maintenance
 
-## Common Commands
+## 本地確認
 
 ```powershell
-npm.cmd install
-npm.cmd run build
-npm.cmd run preview
+corepack enable
+corepack prepare pnpm@9.14.4 --activate
+pnpm install
+pnpm dev
 ```
 
-Open `http://localhost:4000/` after the preview server starts.
-
-If port 4000 is already used:
+打開 `http://localhost:4321/`。如果 4321 被占用：
 
 ```powershell
-npm.cmd run preview -- --port 4001
+pnpm dev -- --port 4322
 ```
 
-## Directory Map
+正式輸出檢查：
+
+```powershell
+pnpm build
+pnpm preview
+```
+
+## 目錄分工
 
 | Path | Purpose |
 | --- | --- |
-| `source/_posts/` | Blog posts. Add or edit article Markdown here. |
-| `source/about/index.md` | About page content. |
-| `source/friends/index.md` | Friends page structure. Usually does not need edits. |
-| `source/_data/friends.md` | Friends list. Paste new friends here. |
-| `source/_data/giscus.json` | Giscus comment configuration. |
-| `source/css/custom/friends.css` | Friends page card styling. |
-| `scripts/` | Hexo build hooks. |
-| `scripts/lib/` | Small shared helper modules used by build hooks. |
-| `scripts/description-breaks.js` | Restores line breaks in Vivia home-card descriptions. |
-| `tools/` | One-off recovery and migration helpers. |
-| `.github/workflows/deploy.yml` | GitHub Actions deployment workflow. |
+| `src/config.ts` | 網站設定、導覽列、個人資訊、社群連結。 |
+| `src/content/posts/YYYY/MM/DD/*.md` | 文章原檔。資料夾日期就是文章 URL 日期。 |
+| `src/content/spec/about.md` | About 頁 Markdown 內容。 |
+| `src/data/friends.md` | 友鏈資料。 |
+| `src/data/friends.ts` | 將 `friends.md` 轉成頁面可用資料。 |
+| `src/data/giscus.ts` | giscus 留言設定。 |
+| `src/pages/friends.astro` | 友鏈頁版面。 |
+| `src/components/GiscusComments.astro` | 留言元件。 |
+| `public/` | favicon、頭像、封面、文章圖片等靜態檔。 |
+| `.github/workflows/deploy.yml` | GitHub Actions 部署流程。 |
 
-## Add A Friend
+## 新增文章
 
-Edit `source/_data/friends.md` and append:
+```powershell
+pnpm new-post article-slug
+```
+
+腳本會建立 `src/content/posts/YYYY/MM/DD/article-slug.md`，並寫入：
+
+```md
+---
+title: "article-slug"
+published: YYYY-MM-DD
+description: ''
+image: ''
+tags: []
+category: ''
+draft: false
+lang: ''
+---
+```
+
+多行描述可以這樣寫：
+
+```yml
+description: |-
+  第一行
+  第二行
+```
+
+## 新增友鏈
+
+編輯 `src/data/friends.md`，格式如下：
 
 ```yml
 - name: 名字
@@ -43,50 +77,24 @@ Edit `source/_data/friends.md` and append:
   image: 頭像網址
 ```
 
-Then run:
+修改後執行：
 
 ```powershell
-npm.cmd run build
+pnpm build
 ```
 
-## Add A Post
+## 留言
 
-Create a Markdown file in `source/_posts/` with front matter:
+留言使用 giscus。設定在 `src/data/giscus.ts`，目前使用 `mapping: "pathname"`，所以保留舊網址後，GitHub Discussions 的留言對應也會跟著穩定。
 
-```md
----
-title: 文章標題
-date: 2026-05-28 12:00:00
-categories:
-  - 分類
-tags:
-  - tag
----
+## 部署
 
-文章內容
+原始碼放在 `source` 分支。推送後 GitHub Actions 會 build Fuwari，並把 `dist/` 發布到 `main` 分支。
+
+```powershell
+git add .
+git commit -m "Update blog"
+git push origin source
 ```
 
-Multi-line `description` values are supported and will appear with line breaks on Vivia article cards:
-
-```yml
-description: |-
-  第一行
-  第二行
-  第三行
-```
-
-## Comments
-
-Comments are powered by giscus. To change the repository or category, edit `source/_data/giscus.json`.
-
-Set `comments: false` in a post or page front matter to disable comments on that page.
-
-## Deployment
-
-This source lives in `huiink/huiink.github.io` on the `source` branch. Pushes to `source` trigger GitHub Actions.
-
-The workflow builds Hexo and publishes `public/` to the `main` branch of the same repository, which is the GitHub Pages branch.
-
-The workflow sets `TZ: Asia/Taipei` so date-only post front matter generates the same permalink date locally and on GitHub Actions.
-
-No personal access token is required for this single-repository deployment.
+GitHub Pages 設定使用 `main` 分支。這種同 repo 部署不需要 personal access token。
