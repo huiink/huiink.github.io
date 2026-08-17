@@ -2,55 +2,43 @@ name: Deploy Fuwari to GitHub Pages
 
 on:
   push:
-    branches:
-      - source
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 env:
   TZ: Asia/Taipei
   ASTRO_TELEMETRY_DISABLED: 1
 
 concurrency:
-  group: github-pages
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9.14.4
-          run_install: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Install, build, and upload site
+        uses: withastro/action@v6
         with:
           node-version: 22
-          cache: pnpm
+          package-manager: pnpm@9.14.4
+          build-cmd: pnpm run build
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build Fuwari site
-        run: pnpm build
-
-      - name: Publish dist folder to main
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: main
-          publish_dir: ./dist
-          user_name: github-actions[bot]
-          user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit_message: Deploy Fuwari site from ${{ github.sha }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

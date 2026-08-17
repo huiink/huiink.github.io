@@ -27,7 +27,7 @@ pnpm preview
 | Path | Purpose |
 | --- | --- |
 | `src/config.ts` | 網站設定、導覽列、個人資訊、社群連結。 |
-| `src/content/posts/YYYY/MM/DD/*.md` | 文章原檔。資料夾日期就是文章 URL 日期。 |
+| `src/content/posts/*.md` | 文章原檔。 |
 | `src/content/spec/about.md` | About 頁 Markdown 內容。 |
 | `src/data/friends.md` | 友鏈資料。 |
 | `src/data/friends.ts` | 將 `friends.md` 轉成頁面可用資料。 |
@@ -43,7 +43,7 @@ pnpm preview
 pnpm new-post article-slug
 ```
 
-腳本會建立 `src/content/posts/YYYY/MM/DD/article-slug.md`，並寫入：
+腳本會建立 `src/content/posts/article-slug.md`，並寫入：
 
 ```md
 ---
@@ -85,16 +85,17 @@ pnpm build
 
 ## 留言
 
-留言使用 giscus。設定在 `src/data/giscus.ts`，目前使用 `mapping: "pathname"`，所以保留舊網址後，GitHub Discussions 的留言對應也會跟著穩定。
+留言使用 giscus。設定在 `src/data/giscus.ts`，目前使用 `mapping: "pathname"`；修改已發布文章的檔名會改變網址，也會建立新的留言對應。
 
 ## 部署
 
-原始碼放在 `source` 分支。推送後 GitHub Actions 會 build Fuwari，並把 `dist/` 發布到 `main` 分支。
+原始碼放在 `main` 分支。推送後 GitHub Actions 會 build Fuwari，並透過 GitHub Pages artifact 發布網站。
 
 ```powershell
+git pull --ff-only origin main
 git add .
 git commit -m "Update blog"
-git push origin source
+git push origin main
 ```
 
-GitHub Pages 設定使用 `main` 分支。這種同 repo 部署不需要 personal access token。
+GitHub Pages 的發布來源設定為 `GitHub Actions`。`dist/` 不需要加入 Git，也不需要 personal access token。舊 `source` 分支只作為備份，不再用於日常維護或部署。

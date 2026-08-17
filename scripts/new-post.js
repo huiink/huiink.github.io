@@ -1,15 +1,15 @@
-/* Create a dated post file that keeps URLs stable as /YYYY/MM/DD/slug/. */
+/* Create a post directly in Fuwari's standard posts directory. */
 
 import fs from "node:fs";
 import path from "node:path";
 
-function getDate() {
+function getPublishedDate() {
 	const today = new Date();
 	const year = String(today.getFullYear());
 	const month = String(today.getMonth() + 1).padStart(2, "0");
 	const day = String(today.getDate()).padStart(2, "0");
 
-	return { year, month, day, published: `${year}-${month}-${day}` };
+	return `${year}-${month}-${day}`;
 }
 
 function stripMarkdownExtension(fileName) {
@@ -33,8 +33,8 @@ Usage: pnpm new-post <filename>`);
 
 const title = stripMarkdownExtension(args.join(" "));
 const fileName = `${toSafeFileName(args.join(" "))}.md`;
-const { year, month, day, published } = getDate();
-const targetDir = path.join("src", "content", "posts", year, month, day);
+const published = getPublishedDate();
+const targetDir = path.join("src", "content", "posts");
 const fullPath = path.join(targetDir, fileName);
 
 if (fs.existsSync(fullPath)) {

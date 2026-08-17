@@ -4,7 +4,7 @@
 
 ## 快速開始
 
-需要 Node.js 20 以上，建議使用 pnpm 9.14.4。
+需要 Node.js 20 或 22，使用 pnpm 9.14.4。
 
 ```powershell
 corepack enable
@@ -23,14 +23,14 @@ pnpm dev
 | `pnpm build` | 產生靜態網站到 `dist/` |
 | `pnpm preview` | 預覽 `dist/` |
 | `pnpm check` | 執行 Astro 檢查 |
-| `pnpm new-post <文章檔名>` | 在今天日期資料夾建立新文章 |
+| `pnpm new-post <文章檔名>` | 在文章目錄建立新文章 |
 
 ## 內容位置
 
 | 路徑 | 用途 |
 | --- | --- |
 | `src/config.ts` | 網站標題、導覽列、頭像、社群連結 |
-| `src/content/posts/YYYY/MM/DD/*.md` | 文章 Markdown |
+| `src/content/posts/*.md` | 文章 Markdown |
 | `src/content/spec/about.md` | 關於頁內容 |
 | `src/data/friends.md` | 友鏈清單 |
 | `src/data/friends.ts` | 讀取 `friends.md` 的小型資料轉換器 |
@@ -44,19 +44,19 @@ pnpm dev
 pnpm new-post my-new-post
 ```
 
-這會建立：
+這會直接建立：
 
 ```text
-src/content/posts/YYYY/MM/DD/my-new-post.md
+src/content/posts/my-new-post.md
 ```
 
 文章網址會是：
 
 ```text
-/YYYY/MM/DD/my-new-post/
+/posts/my-new-post/
 ```
 
-Frontmatter 使用 `published: YYYY-MM-DD` 的純日期格式，避免 GitHub Actions 與本地時區不同時讓日期少一天。
+文章日期由 frontmatter 的 `published: YYYY-MM-DD` 決定，不影響檔案位置或網址。
 
 ## 新增友鏈
 
@@ -73,11 +73,11 @@ Frontmatter 使用 `published: YYYY-MM-DD` 的純日期格式，避免 GitHub Ac
 
 ## 部署
 
-此 repo 使用 `source` 分支保存原始碼。推送到 `source` 後，GitHub Actions 會：
+此 repo 使用 `main` 分支保存原始碼。推送到 `main` 後，GitHub Actions 會：
 
-1. 安裝 Node.js 22 與 pnpm 9.14.4
-2. 執行 `pnpm install --frozen-lockfile`
-3. 執行 `pnpm build`
-4. 將 `dist/` 發布到 `main` 分支
+1. 使用 Astro 官方 Action 安裝 Node.js 22 與 pnpm 9.14.4
+2. 執行 `pnpm build`
+3. 將 `dist/` 上傳為 GitHub Pages artifact
+4. 使用官方 Pages Action 發布網站
 
-GitHub Pages 請設定使用 `main` 分支作為發布來源。單一 repo 部署使用 `GITHUB_TOKEN`，不需要另外建立 personal access token。
+GitHub Pages 的發布來源設為 `GitHub Actions`。`dist/` 不會提交到 Git，也不需要 personal access token。舊 `source` 分支只保留為標準化前的原始碼備份，日常不需使用。
