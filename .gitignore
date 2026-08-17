@@ -6,6 +6,7 @@ dist/
 
 # dependencies
 node_modules/
+.pnpm-store/
 
 # logs
 npm-debug.log*
@@ -30,3 +31,7 @@ yarn.lock
 # ide
 .idea
 *.iml
+
+# local Codex planning and visual review files
+.planning/
+.superpowers/

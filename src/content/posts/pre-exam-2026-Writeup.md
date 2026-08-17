@@ -2,8 +2,7 @@
 title: "pre-exam 2026 Writeup"
 published: 2026-05-18
 description: |-
-  無義的征伐 不之疲倦的神明
-  不願死去 迂腐不堪 
+  聽說有個傻屌在作弊~
 image: "/img/AIS3_logo.png"
 tags: ["writeup","note","CTF","web"]
 category: "CTF"

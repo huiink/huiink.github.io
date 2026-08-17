@@ -75,6 +75,7 @@ const jsonLd = {
                     data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title"
                     class="transition w-full block font-bold mb-3
                     text-3xl md:text-[2.25rem]/[2.75rem]
+                    text-balance
                     text-black/90 dark:text-white/90
                     md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
                     before:absolute before:top-[0.75rem] before:left-[-1.125rem]
@@ -98,11 +99,11 @@ const jsonLd = {
             <!-- always show cover as long as it has one -->
 
             {entry.data.image &&
-                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
+                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="h-56 sm:h-64 md:h-80 mb-8 rounded-xl banner-container bg-black/[0.03] dark:bg-white/[0.04] onload-animation"/>
             }
 
 
-            <Markdown class="mb-6 markdown-content onload-animation">
+            <Markdown class="mb-6 markdown-content text-pretty onload-animation">
                 <Content />
             </Markdown>
 
@@ -136,3 +137,9 @@ const jsonLd = {
     </div>
 
 </MainGridLayout>
+
+<style>
+    :global(#post-cover img) {
+        object-fit: contain;
+    }
+</style>
