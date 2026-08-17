@@ -41,4 +41,4 @@
 - name: R3X DJ
   url: https://r3xdj.github.io
   desc: 對不起我都在 Vibe Hacking
-  image: https://r3xdj.github.io/img/icy_star.png
+  image: https://avatars.githubusercontent.com/r3xdj?v=4
