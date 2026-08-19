@@ -1,8 +1,8 @@
 ---
-title: "THJCC CTF 2026 Summer 已解題目 Writeup 整理"
+title: "THJCC CTF 2026 Summer Writeup"
 published: 2026-08-18
 description: |-
-  THJCC CTF 2026 Summer 已解題目與解法紀錄。
+  THJCC CTF 2026 Summer 
 image: "/img/logo2.png"
 tags: ["writeup", "note", "CTF"]
 category: "CTF"
